@@ -11,10 +11,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
 @SuperBuilder
 @EqualsAndHashCode
-@Getter
-public class FlightImpl implements Flight, Comparable<Flight> {
+public class FlightImpl implements Flight,
+        Comparable<Flight> {
     private final NavigableSet<Station> stations;
 
     public FlightImpl(List<Station> stations) {
@@ -60,7 +61,8 @@ public class FlightImpl implements Flight, Comparable<Flight> {
 
     @Override
     public long earthStayDuration(ChronoUnit chronoUnit) {
-        return travelDuration(chronoUnit) - airStayDuration(chronoUnit);
+        return travelDuration(chronoUnit) -
+                airStayDuration(chronoUnit);
     }
 
     @Override
@@ -78,8 +80,8 @@ public class FlightImpl implements Flight, Comparable<Flight> {
                 );
     }
 
-    @SuperBuilder
     @Getter
+    @SuperBuilder
     @EqualsAndHashCode
     @AllArgsConstructor
     public static class Station

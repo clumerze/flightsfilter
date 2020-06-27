@@ -26,12 +26,12 @@ public class FlightFilterImpl implements FlightFilter {
 
     @Override
     public List<Flight> byCondition(Predicate<? super Flight> condition) {
-        return select(condition);
+        return selectWhere(condition);
     }
 
     @Override
     public <P> List<Flight> byProperty(Function<? super Flight, P> property, Predicate<? super P> condition) {
-        return select(
+        return selectWhere(
                 element -> condition.test(
                         property.apply(element)
                 )
@@ -40,7 +40,7 @@ public class FlightFilterImpl implements FlightFilter {
 
     @Override
     public <P> List<Flight> byCollectionProperty(Function<? super Flight, Collection<P>> property, Predicate<? super P> condition) {
-        return select(
+        return selectWhere(
                 element -> property.apply(element)
                         .parallelStream()
                         .anyMatch(condition)
@@ -67,7 +67,7 @@ public class FlightFilterImpl implements FlightFilter {
         return EARTH_STAY_HOURS_DURATION_IDX.less(hours);
     }
 
-    private List<Flight> select(Predicate<? super Flight> condition) {
+    private List<Flight> selectWhere(Predicate<? super Flight> condition) {
         return FLIGHTS.parallelStream()
                 .filter(condition)
                 .collect(Collectors.toList());
