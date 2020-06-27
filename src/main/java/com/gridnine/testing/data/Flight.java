@@ -6,9 +6,14 @@ import java.util.Set;
 
 public interface Flight {
     Set<FlightImpl.Station> getStations();
+
     LocalDateTime startTravel();
+
     LocalDateTime finishTravel();
+
     long travelDuration(ChronoUnit chronoUnit);
+
     long airStayDuration(ChronoUnit chronoUnit);
+
     long earthStayDuration(ChronoUnit chronoUnit);
 }

@@ -2,12 +2,10 @@ package com.gridnine.testing.main;
 
 import com.gridnine.testing.data.Flight;
 import com.gridnine.testing.data.FlightFactory;
-import com.gridnine.testing.service.BTreeIndex;
 import com.gridnine.testing.service.FlightFilter;
 import com.gridnine.testing.service.FlightFilterImpl;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
