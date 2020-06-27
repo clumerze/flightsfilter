@@ -1,6 +1,7 @@
 package com.gridnine.testing.data;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SuperBuilder
+@EqualsAndHashCode
 @Getter
 public class FlightImpl implements Flight, Comparable<Flight> {
     private final NavigableSet<Station> stations;
@@ -78,6 +80,7 @@ public class FlightImpl implements Flight, Comparable<Flight> {
 
     @SuperBuilder
     @Getter
+    @EqualsAndHashCode
     @AllArgsConstructor
     public static class Station
             implements Comparable<Station> {
