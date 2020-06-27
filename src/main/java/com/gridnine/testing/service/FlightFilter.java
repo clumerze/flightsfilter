@@ -12,6 +12,9 @@ public interface FlightFilter {
     List<Flight> byCondition(Predicate<? super Flight> condition);
     <P> List<Flight> byProperty(Function<? super Flight, P> property, Predicate<? super P> condition);
     <P> List<Flight> byCollectionProperty(Function<? super Flight, Collection<P>> property, Predicate<? super P> condition);
-    List<Flight> earlyFlight(LocalDateTime time);
-    List<Flight> lateFlight(LocalDateTime time);
+
+    List<Flight> travelStartTimeIsBefore(LocalDateTime time);
+    List<Flight> travelStartTimeIsAfter(LocalDateTime time);
+    List<Flight> earthStayDurationIsMore(long hours);
+    List<Flight> earthStayDurationIsLess(long hours);
 }

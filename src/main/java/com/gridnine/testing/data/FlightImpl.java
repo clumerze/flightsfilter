@@ -7,16 +7,13 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuperBuilder
 @Getter
 public class FlightImpl implements Flight, Comparable<Flight> {
-    private final SortedSet<Station> stations;
+    private final NavigableSet<Station> stations;
 
     public FlightImpl(List<Station> stations) {
         this.stations = Collections.unmodifiableNavigableSet(

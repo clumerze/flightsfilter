@@ -24,7 +24,7 @@ public class Main {
         System.out.printf(
                 "Departure then the current moment of time:\n%s\n\n",
                 listToStr(
-                        filter.earlyFlight(LocalDateTime.now())
+                        filter.travelStartTimeIsBefore(LocalDateTime.now())
                 )
         );
 
@@ -41,14 +41,10 @@ public class Main {
                 )
         );
 
-        BTreeIndex<Long, Flight> earthStayIndex = new BTreeIndex<>(
-                flight -> flight.earthStayDuration(ChronoUnit.HOURS),
-                flights
-        );
         System.out.printf(
                 "The total duration of nailing on the ground exceeds 2 hours:\n%s\n\n",
                 listToStr(
-                        earthStayIndex.more(2L)
+                        filter.earthStayDurationIsMore(2L)
                 )
         );
     }

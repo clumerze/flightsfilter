@@ -3,25 +3,21 @@ package com.gridnine.testing.service;
 import com.gridnine.testing.data.Flight;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FlightFilterImpl implements FlightFilter {
-    private final NavigableMap<LocalDateTime, List<Flight>> data;
+    private final List<Flight> FLIGHTS;
+    private final BTreeIndex<LocalDateTime, Flight> START_TRAVEL_IDX;
+    private final BTreeIndex<Long, Flight> EARTH_STAY_HOURS_DURATION_IDX;
 
     public FlightFilterImpl(List<Flight> data) {
-        this.data = Collections.unmodifiableNavigableMap(
-                new TreeMap<>(
-                        data.parallelStream()
-                                .collect(
-                                        Collectors.groupingBy(
-                                                Flight::startTravel
-                                        )
-                                )
-                )
-        );
+        FLIGHTS = Collections.unmodifiableList(data);
+        START_TRAVEL_IDX = new BTreeIndex<>(Flight::startTravel, data);
+        EARTH_STAY_HOURS_DURATION_IDX = new BTreeIndex<>(flight -> flight.earthStayDuration(ChronoUnit.HOURS), data);
     }
 
     public static FlightFilterImpl of(List<Flight> data) {
@@ -52,24 +48,27 @@ public class FlightFilterImpl implements FlightFilter {
     }
 
     @Override
-    public List<Flight> earlyFlight(LocalDateTime time) {
-        return Optional.ofNullable(data.lowerEntry(time))
-                .orElse(new AbstractMap.SimpleEntry<LocalDateTime, List<Flight>>(null, Collections.EMPTY_LIST))
-                .getValue();
-
+    public List<Flight> travelStartTimeIsBefore(LocalDateTime time) {
+        return START_TRAVEL_IDX.less(time);
     }
 
     @Override
-    public List<Flight> lateFlight(LocalDateTime time) {
-        return Optional.ofNullable(data.higherEntry(time))
-                .orElse(new AbstractMap.SimpleEntry<LocalDateTime, List<Flight>>(null, Collections.EMPTY_LIST))
-                .getValue();
+    public List<Flight> travelStartTimeIsAfter(LocalDateTime time) {
+        return START_TRAVEL_IDX.more(time);
+    }
+
+    @Override
+    public List<Flight> earthStayDurationIsMore(long hours) {
+        return EARTH_STAY_HOURS_DURATION_IDX.more(hours);
+    }
+
+    @Override
+    public List<Flight> earthStayDurationIsLess(long hours) {
+        return EARTH_STAY_HOURS_DURATION_IDX.less(hours);
     }
 
     private List<Flight> select(Predicate<? super Flight> condition) {
-        return data.values()
-                .parallelStream()
-                .flatMap(List::parallelStream)
+        return FLIGHTS.parallelStream()
                 .filter(condition)
                 .collect(Collectors.toList());
     }
