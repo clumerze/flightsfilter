@@ -16,6 +16,7 @@ public class FlightFilterImplTest extends TestCase {
     Flight flightWithStartTravelBeforeNow;
     Flight flightWithStartTravelTwoHoursFromNow;
     Flight flightWithEarthDurationMoreTwoHours;
+    Flight flightWithEarthDurationMoreTwoHours2;
 
     @Override
     protected void setUp() {
@@ -24,6 +25,8 @@ public class FlightFilterImplTest extends TestCase {
         var twoHoursFromNow = now.plusHours(1);
         var twoDaysFromNow = now.plusDays(1);
         var fourDaysFromNow = now.plusDays(4);
+        var sixDaysFromNow = now.plusDays(6);
+        var eightDaysFromNow = now.plusDays(8);
 
         flightWithStartTravelTwoHoursFromNow = createFlight(
                 twoHoursFromNow,
@@ -39,11 +42,18 @@ public class FlightFilterImplTest extends TestCase {
                 twoDaysFromNow,
                 fourDaysFromNow
         );
+        flightWithEarthDurationMoreTwoHours2 = createFlight(
+                now,
+                twoHoursFromNow,
+                sixDaysFromNow,
+                eightDaysFromNow
+        );
         filter = new FlightFilterImpl(
                 List.of(
                         flightWithEarthDurationMoreTwoHours,
                         flightWithStartTravelBeforeNow,
-                        flightWithStartTravelTwoHoursFromNow
+                        flightWithStartTravelTwoHoursFromNow,
+                        flightWithEarthDurationMoreTwoHours2
                 )
         );
 
@@ -97,13 +107,13 @@ public class FlightFilterImplTest extends TestCase {
         var actual = filter.earthStayDurationIsMore(2);
 
         assertThat(actual)
-                .containsOnly(flightWithEarthDurationMoreTwoHours);
+                .containsOnly(flightWithEarthDurationMoreTwoHours, flightWithEarthDurationMoreTwoHours2);
     }
 
     public void testEarthStayDurationIsLess() {
         var actual = filter.earthStayDurationIsLess(2);
 
         assertThat(actual)
-                .containsExactly(flightWithStartTravelBeforeNow, flightWithStartTravelTwoHoursFromNow);
+                .containsOnly(flightWithStartTravelBeforeNow, flightWithStartTravelTwoHoursFromNow);
     }
 }
