@@ -8,14 +8,16 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Getter
 @SuperBuilder
 @EqualsAndHashCode
-public class FlightImpl implements Flight,
-        Comparable<Flight> {
+public class FlightImpl implements Flight, Comparable<Flight> {
     private final NavigableSet<Station> stations;
 
     public FlightImpl(List<Station> stations) {

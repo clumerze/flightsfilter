@@ -18,7 +18,7 @@ public class Main {
                 listToStr(flights)
         );
 
-        FlightFilter filter = FlightFilterImpl.of(flights);
+        FlightFilter filter = new FlightFilterImpl(flights);
 
         System.out.printf(
                 "Departure then the current moment of time:\n%s\n\n",

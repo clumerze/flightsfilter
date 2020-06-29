@@ -1,9 +1,12 @@
+## IntelijIdea ##
+.idea
+build
+out
 
-# Created by https://www.toptal.com/developers/gitignore/api/gradle
-# Edit at https://www.toptal.com/developers/gitignore?templates=gradle
 
 ### Gradle ###
 .gradle
+gradle
 build/
 
 # Ignore Gradle GUI config
@@ -20,5 +23,3 @@ gradle-app.setting
 
 ### Gradle Patch ###
 **/build/
-
-# End of https://www.toptal.com/developers/gitignore/api/gradle
